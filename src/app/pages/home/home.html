@@ -1,2 +1,36 @@
-<h1>{{ title }}</h1>
-<button class="btn btn-sm btn-primary" (click)="change()" [hidden]="state">Change</button>
+<input type="text" name="search" class="form-control" 
+       placeholder="Search By Title" 
+       [(ngModel)]="SearchTitle" >
+
+<h1>{{SearchTitle}}</h1>
+
+<div class="container my-5">
+  <div class="row g-4">
+
+    <!--@for: directive Angular-->
+    @for (conf of list; track conf.title){
+      @if (SearchTitle == conf.title || SearchTitle == null){
+        <div class="col-md-6 col-lg-4">
+          <div class="card h-100 shadow-sm">
+            <img [src]="conf.picture" class="card-img-top" [alt]="conf.title">
+            <div class="card-body">
+              <!--Data binding : Interpolation-->
+              <h5 class="card-title">{{ conf.title | uppercase }}</h5>
+              <p class="card-text">{{ conf.description }}</p>
+              <p class="card-text mb-1"><strong>Date :</strong> {{ conf.date }}</p>
+              <p class="card-text"><strong>Places disponibles :</strong> {{ conf.nbrMax - conf.nbrReservation }}</p>
+            </div>
+            <div class="card-footer bg-white border-0">
+              <button class="btn btn-success w-100"
+                      [disabled]="conf.nbrMax - conf.nbrReservation == 0"
+                      (click)="participate(conf)">
+                participate
+              </button>
+            </div>
+          </div>
+        </div>
+      }
+    }
+
+  </div>
+</div>
